@@ -1,0 +1,30 @@
+= form_with(model: transaction) do |form|
+  - if transaction.errors.any?
+    div style="color: red"
+      h2 = "#{pluralize(transaction.errors.count, "error")} prohibited this transaction from being saved:"
+      ul
+        - transaction.errors.each do |error|
+          li = error.full_message
+
+  div
+    = form.label :uuid, style: "display: block"
+    = form.text_field :uuid
+
+  div
+    = form.label :amount, style: "display: block"
+    = form.number_field :amount
+
+  div
+    = form.label :status, style: "display: block"
+    = form.text_field :status
+
+  div
+    = form.label :customer_email, style: "display: block"
+    = form.text_field :customer_email
+
+  div
+    = form.label :customer_phone, style: "display: block"
+    = form.text_field :customer_phone
+
+  div
+    = form.submit
