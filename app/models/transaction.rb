@@ -1,3 +1,4 @@
 class Transaction < ApplicationRecord
-  # validates amount, numericality: { greater_than: 0 }
+  validates :amount, presence: true, numericality: { greater_than: 0 }
+  validates :uuid, presence: true
 end
