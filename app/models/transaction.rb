@@ -5,6 +5,7 @@ class Transaction < ApplicationRecord
 
   validates :amount, presence: true, numericality: { greater_than: 0 }
   validates :uuid, presence: true, uuid: true
+  validates :customer_email, email: true
 
   private
 
