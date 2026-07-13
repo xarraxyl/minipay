@@ -44,7 +44,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_13_123734) do
   create_table "users", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "email_address", null: false
-    t.integer "merchant_id", null: false
+    t.integer "merchant_id"
     t.string "password_digest", null: false
     t.integer "role", default: 1, null: false
     t.datetime "updated_at", null: false
