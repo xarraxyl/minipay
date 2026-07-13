@@ -102,54 +102,21 @@ RSpec.describe Transaction, type: :model do
     end
 
     context "cannot change between" do
-      it "reversed -> refunded" do
-        transaction = create(:transaction, status: :reversed)
+      Transaction.statuses.keys.each do |new_status|
+        %w[reversed refunded error].each do |irreversible_status|
+          # not a change
+          next if new_status == irreversible_status
 
-        transaction.status = :refunded
-        # trigger state change validation without raising
-        transaction.save
+          it "#{irreversible_status} -> #{new_status}" do
+            transaction = create(:transaction, status: irreversible_status)
 
-        expect(transaction).to have_error(:status, :invalid_state_transition)
-      end
+            transaction.status = new_status
+            # trigger state change validation without raising
+            transaction.save
 
-      it "refunded -> reversed" do
-        transaction = create(:transaction, status: :refunded)
-
-        transaction.status = :reversed
-        # trigger state change validation without raising
-        transaction.save
-
-        expect(transaction).to have_error(:status, :invalid_state_transition)
-      end
-
-      it "error -> approved" do
-        transaction = create(:transaction, status: :error)
-
-        transaction.status = :approved
-        # trigger state change validation without raising
-        transaction.save
-
-        expect(transaction).to have_error(:status, :invalid_state_transition)
-      end
-
-      it "error -> reversed" do
-        transaction = create(:transaction, status: :error)
-
-        transaction.status = :reversed
-        # trigger state change validation without raising
-        transaction.save
-
-        expect(transaction).to have_error(:status, :invalid_state_transition)
-      end
-
-      it "error -> refunded" do
-        transaction = create(:transaction, status: :error)
-
-        transaction.status = :refunded
-        # trigger state change validation without raising
-        transaction.save
-
-        expect(transaction).to have_error(:status, :invalid_state_transition)
+            expect(transaction).to have_error(:status, :invalid_state_transition)
+          end
+        end
       end
     end
   end
