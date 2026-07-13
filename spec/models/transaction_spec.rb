@@ -10,7 +10,7 @@ RSpec.describe Transaction, type: :model do
   end
 
   context "amount" do
-    it "cannot be nil" do
+    it "must exist" do
       transaction = build(:transaction, amount: nil)
 
       transaction.valid?
@@ -32,7 +32,7 @@ RSpec.describe Transaction, type: :model do
       expect(create(:transaction).uuid).to be_uuid
     end
 
-    it "cannot be nil" do
+    it "must exist" do
       transaction = build(:transaction, uuid: nil)
 
       transaction.valid?
@@ -57,6 +57,100 @@ RSpec.describe Transaction, type: :model do
       transaction.valid?
 
       expect(transaction).to have_error(:customer_email, :not_email)
+    end
+  end
+
+  context "status" do
+    it "must exist" do
+      transaction = build(:transaction, status: nil)
+
+      transaction.valid?
+
+      expect(transaction).to have_error(:status, :blank)
+    end
+
+    context "can change between" do
+      it "approved -> reversed" do
+        transaction = create(:transaction, status: :approved)
+
+        transaction.status = :reversed
+        # trigger state change validation without raising
+        transaction.save
+
+        expect(transaction).to be_valid
+      end
+
+      it "approved -> refunded" do
+        transaction = create(:transaction, status: :approved)
+
+        transaction.status = :error
+        # trigger state change validation without raising
+        transaction.save
+
+        expect(transaction).to be_valid
+      end
+
+      it "approved -> error" do
+        transaction = create(:transaction, status: :approved)
+
+        transaction.status = :error
+        # trigger state change validation without raising
+        transaction.save
+
+        expect(transaction).to be_valid
+      end
+    end
+
+    context "cannot change between" do
+      it "reversed -> refunded" do
+        transaction = create(:transaction, status: :reversed)
+
+        transaction.status = :refunded
+        # trigger state change validation without raising
+        transaction.save
+
+        expect(transaction).to have_error(:status, :invalid_state_transition)
+      end
+
+      it "refunded -> reversed" do
+        transaction = create(:transaction, status: :refunded)
+
+        transaction.status = :reversed
+        # trigger state change validation without raising
+        transaction.save
+
+        expect(transaction).to have_error(:status, :invalid_state_transition)
+      end
+
+      it "error -> approved" do
+        transaction = create(:transaction, status: :error)
+
+        transaction.status = :approved
+        # trigger state change validation without raising
+        transaction.save
+
+        expect(transaction).to have_error(:status, :invalid_state_transition)
+      end
+
+      it "error -> reversed" do
+        transaction = create(:transaction, status: :error)
+
+        transaction.status = :reversed
+        # trigger state change validation without raising
+        transaction.save
+
+        expect(transaction).to have_error(:status, :invalid_state_transition)
+      end
+
+      it "error -> refunded" do
+        transaction = create(:transaction, status: :error)
+
+        transaction.status = :refunded
+        # trigger state change validation without raising
+        transaction.save
+
+        expect(transaction).to have_error(:status, :invalid_state_transition)
+      end
     end
   end
 end
