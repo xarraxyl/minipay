@@ -1,6 +1,4 @@
 class Transaction < ApplicationRecord
-  UUID_REGEX = /\A\h{8}-\h{4}-(\h)\h{3}-[89ab]\h{3}-\h{12}\z/i
-
   enum :status, { approved: 0, reversed: 1, refunded: 2, error: 3 }
 
   after_initialize :defaults
@@ -9,6 +7,7 @@ class Transaction < ApplicationRecord
   validates :uuid, presence: true, uuid: true
   validates :customer_email, email: true
   validates :status, presence: true
+  validates :type, presence: true
   validate :state_transition_for_status, if: :status_changed?
 
   private
