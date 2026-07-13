@@ -120,6 +120,16 @@ RSpec.describe Transaction, type: :model do
       end
     end
   end
+
+  context "merchant" do
+    it "must exist" do
+      transaction = build(:transaction, merchant: nil)
+
+      transaction.valid?
+
+      expect(transaction).to have_error(:merchant, :blank)
+    end
+  end
 end
 
 RSpec.describe Transactions::Authorize, type: :model do

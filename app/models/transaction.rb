@@ -10,6 +10,8 @@ class Transaction < ApplicationRecord
   validates :type, presence: true
   validate :state_transition_for_status, if: :status_changed?
 
+  belongs_to :merchant
+
   private
 
   def defaults

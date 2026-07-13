@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :merchant do
-    name { "MyString" }
+    name { "Minipay Mechant" }
     description { "MyText" }
     email { "MyString" }
     status { 1 }
