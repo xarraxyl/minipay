@@ -46,7 +46,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_13_123734) do
     t.string "email_address", null: false
     t.integer "merchant_id", null: false
     t.string "password_digest", null: false
-    t.integer "role"
+    t.integer "role", default: 1, null: false
     t.datetime "updated_at", null: false
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
     t.index ["merchant_id"], name: "index_users_on_merchant_id"
