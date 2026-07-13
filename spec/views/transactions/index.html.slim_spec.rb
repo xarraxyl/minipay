@@ -6,14 +6,14 @@ RSpec.describe "transactions/index", type: :view do
       Transaction.create!(
         uuid: "Uuid",
         amount: 2,
-        status: "Status",
+        status: :approved,
         customer_email: "Customer Email",
         customer_phone: "Customer Phone"
       ),
       Transaction.create!(
         uuid: "Uuid",
         amount: 2,
-        status: "Status",
+        status: :approved,
         customer_email: "Customer Email",
         customer_phone: "Customer Phone"
       )

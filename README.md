@@ -17,6 +17,9 @@ Things you may want to cover:
 
 * How to run the test suite
 
+- ingration tests: `rspec`
+- 
+
 * Services (job queues, cache servers, search engines, etc.)
 
 * Deployment instructions

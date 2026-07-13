@@ -1,0 +1,5 @@
+h1 MiniPay
+- if authenticated?
+  p Welcome #{Current.user.email_address}
+- else
+  = link_to "Sign in", new_session_path

@@ -3,11 +3,13 @@ require 'rails_helper'
 RSpec.describe "transactions/show", type: :view do
   before(:each) do
     assign(:transaction, Transaction.create!(
-      uuid: "Uuid",
+      uuid: SecureRandom.uuid,
       amount: 2,
-      status: "Status",
-      customer_email: "Customer Email",
-      customer_phone: "Customer Phone"
+      status: :approved,
+      type: "Transactions::Authorize",
+      merchant: Merchant.create,
+      customer_email: "real@email.com",
+      customer_phone: "+420 343 345 677"
     ))
   end
 

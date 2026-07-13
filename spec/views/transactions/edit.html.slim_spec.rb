@@ -5,7 +5,7 @@ RSpec.describe "transactions/edit", type: :view do
     Transaction.create!(
       uuid: "MyString",
       amount: 1,
-      status: "MyString",
+      status: :approved,
       customer_email: "MyString",
       customer_phone: "MyString"
     )

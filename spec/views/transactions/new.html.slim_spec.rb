@@ -5,7 +5,7 @@ RSpec.describe "transactions/new", type: :view do
     assign(:transaction, Transaction.new(
       uuid: "MyString",
       amount: 1,
-      status: "MyString",
+      status: :approved,
       customer_email: "MyString",
       customer_phone: "MyString"
     ))
