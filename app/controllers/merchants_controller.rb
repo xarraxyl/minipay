@@ -1,12 +1,12 @@
 class MerchantsController < ApplicationController
   before_action :set_merchant, only: %i[ show edit update destroy ]
 
-  # GET /merchants or /merchants.json
+  # GET /merchants
   def index
     @merchants = Merchant.all
   end
 
-  # GET /merchants/1 or /merchants/1.json
+  # GET /merchants/1
   def show
   end
 
@@ -19,41 +19,36 @@ class MerchantsController < ApplicationController
   def edit
   end
 
-  # POST /merchants or /merchants.json
+  # POST /merchants
   def create
     @merchant = Merchant.new(merchant_params)
 
     respond_to do |format|
       if @merchant.save
-        format.html { redirect_to @merchant, notice: "Merchant was successfully created." }
-        format.json { render :show, status: :created, location: @merchant }
+        redirect_to @merchant, notice: "Merchant was successfully created."
       else
-        format.html { render :new, status: :unprocessable_content }
-        format.json { render json: @merchant.errors, status: :unprocessable_content }
+        render :new, status: :unprocessable_content
       end
     end
   end
 
-  # PATCH/PUT /merchants/1 or /merchants/1.json
+  # PATCH/PUT /merchants/1
   def update
     respond_to do |format|
       if @merchant.update(merchant_params)
-        format.html { redirect_to @merchant, notice: "Merchant was successfully updated.", status: :see_other }
-        format.json { render :show, status: :ok, location: @merchant }
+        redirect_to @merchant, notice: "Merchant was successfully updated.", status: :see_other
       else
-        format.html { render :edit, status: :unprocessable_content }
-        format.json { render json: @merchant.errors, status: :unprocessable_content }
+        render :edit, status: :unprocessable_content
       end
     end
   end
 
-  # DELETE /merchants/1 or /merchants/1.json
+  # DELETE /merchants/
   def destroy
     @merchant.destroy!
 
     respond_to do |format|
-      format.html { redirect_to merchants_path, notice: "Merchant was successfully destroyed.", status: :see_other }
-      format.json { head :no_content }
+      redirect_to merchants_path, notice: "Merchant was successfully destroyed.", status: :see_other
     end
   end
 
