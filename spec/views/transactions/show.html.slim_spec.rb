@@ -18,7 +18,7 @@ RSpec.describe "transactions/show", type: :view do
     expect(rendered).to match(/Uuid/)
     expect(rendered).to match(/2/)
     expect(rendered).to match(/Status/)
-    expect(rendered).to match(/Customer Email/)
-    expect(rendered).to match(/Customer Phone/)
+    expect(rendered).to match(/real@email.com/)
+    expect(rendered).to match(/\+420 343 345 677/)
   end
 end

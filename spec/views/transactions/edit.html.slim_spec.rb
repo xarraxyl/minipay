@@ -3,10 +3,12 @@ require 'rails_helper'
 RSpec.describe "transactions/edit", type: :view do
   let(:transaction) {
     Transaction.create!(
-      uuid: "MyString",
+      uuid: SecureRandom.uuid,
       amount: 1,
+      type: "Transactions::Authorize",
+      merchant: Merchant.create,
       status: :approved,
-      customer_email: "MyString",
+      customer_email: "real@email.com",
       customer_phone: "MyString"
     )
   }
