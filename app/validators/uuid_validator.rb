@@ -3,9 +3,7 @@ class UuidValidator < ActiveModel::EachValidator
 
   def validate_each(record, attribute, value)
     unless value =~ UUID
-      msg = options[:message] || "is not a valid UUID"
-      msg = options[:type] || :not_uuid
-      record.errors.add(attribute, msg)
+      record.errors.add(attribute, :not_uuid, message: "is not a valid UUID")
     end
   end
 end

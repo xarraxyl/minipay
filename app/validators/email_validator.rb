@@ -2,9 +2,7 @@
 class EmailValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, value)
     unless URI::MailTo::EMAIL_REGEXP.match?(value)
-      msg = options[:message] || "is not a valid email"
-      msg = options[:type] || :not_email
-      record.errors.add attribute, msg
+      record.errors.add attribute, :not_email, message: "is not a valid email"
     end
   end
 end
