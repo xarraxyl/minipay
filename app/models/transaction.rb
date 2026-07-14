@@ -12,6 +12,16 @@ class Transaction < ApplicationRecord
 
   belongs_to :merchant
 
+  # Forces Rails routing and view helpers to treat all subclasses
+  # (like Transactions::Authorize) as "Transaction". This way we can
+  # have only one type of transaction view and routing that handle
+  # all child classes.
+  def self.model_name
+    # Transaction.model_name doesn't work -> recursive function.
+    # We need to construct the active model name from scratch
+    ActiveModel::Name.new(self, nil, "Transaction")
+  end
+
   private
 
   def defaults
