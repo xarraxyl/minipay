@@ -9,6 +9,19 @@ RSpec.describe Transaction, type: :model do
     expect(transaction).to be_valid
   end
 
+  context ".old" do
+    it "returns transactions created MORE than 1 hour ago" do
+      # recent transaction
+      create(:transaction, created_at: Time.current)
+      old_transaction = create(:transaction, created_at: 2.hours.ago)
+
+      old_transactions = Transaction.old
+
+      expect(old_transactions.size).to eq(1)
+      expect(old_transactions.first).to eq(old_transaction)
+    end
+  end
+
   context "amount" do
     it "must exist" do
       transaction = build(:transaction, amount: nil)

@@ -12,6 +12,8 @@ class Transaction < ApplicationRecord
 
   belongs_to :merchant
 
+  scope :old, -> { where(created_at: ..1.hour.ago) }
+
   # Forces Rails routing and view helpers to treat all subclasses
   # (like Transactions::Authorize) as "Transaction". This way we can
   # have only one type of transaction view and routing that handle
