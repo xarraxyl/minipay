@@ -21,7 +21,6 @@ RSpec.describe "transactions/edit", type: :view do
     render
 
     assert_select "form[action=?][method=?]", transaction_path(transaction), "post" do
-
       assert_select "input[name=?]", "transaction[uuid]"
 
       assert_select "input[name=?]", "transaction[amount]"

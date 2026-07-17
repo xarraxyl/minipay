@@ -4,7 +4,7 @@ class UserImporter
   def initialize(rows)
     @rows = rows
     @processed = 0
-    @skipped = 0
+    @skipped = []
     @failed = []
   end
 
@@ -32,16 +32,14 @@ class UserImporter
     @processed += 1
 
     unless user.new_record?
-      @skipped += 1
-      puts "Existing user: #{user.inspect}"
+      @skipped << row
+      return
     end
 
     user.password = row[:password]
 
     unless user.valid?
       @failed << row
-
-      puts "Invalid user"
       return
     end
 

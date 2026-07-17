@@ -19,7 +19,6 @@ RSpec.describe "merchants/edit", type: :view do
     render
 
     assert_select "form[action=?][method=?]", merchant_path(merchant), "post" do
-
       assert_select "input[name=?]", "merchant[name]"
 
       assert_select "textarea[name=?]", "merchant[description]"

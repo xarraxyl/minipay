@@ -7,14 +7,14 @@ RSpec.describe "merchants/index", type: :view do
         name: "Name",
         description: "MyText",
         email: "Email",
-        status: 2,
+        status: "active",
         total_transaction_sum: 3
       ),
       Merchant.create!(
         name: "Name",
         description: "MyText",
         email: "Email",
-        status: 2,
+        status: "active",
         total_transaction_sum: 3
       )
     ])
@@ -26,7 +26,7 @@ RSpec.describe "merchants/index", type: :view do
     assert_select cell_selector, text: Regexp.new("Name".to_s), count: 2
     assert_select cell_selector, text: Regexp.new("MyText".to_s), count: 2
     assert_select cell_selector, text: Regexp.new("Email".to_s), count: 2
-    assert_select cell_selector, text: Regexp.new(2.to_s), count: 2
+    assert_select cell_selector, text: Regexp.new("active".to_s), count: 2
     assert_select cell_selector, text: Regexp.new(3.to_s), count: 2
   end
 end

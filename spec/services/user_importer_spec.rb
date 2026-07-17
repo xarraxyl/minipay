@@ -10,7 +10,7 @@ RSpec.describe UserImporter, type: :service do
         digest = UserImporter.call(admin_row)
       }.to change { User.count }.from(0).to(1)
       expect(digest[:processed]).to eq(1)
-      expect(digest[:skipped]).to eq(0)
+      expect(digest[:skipped].size).to eq(0)
       expect(digest[:failed].size).to eq(0)
 
       imported_user = User.last
@@ -31,7 +31,7 @@ RSpec.describe UserImporter, type: :service do
         digest = UserImporter.call(admin_row)
       }.not_to change { User.count }
       expect(digest[:processed]).to eq(1)
-      expect(digest[:skipped]).to eq(0)
+      expect(digest[:skipped].size).to eq(0)
       expect(digest[:failed].size).to eq(1)
     end
   end
@@ -55,7 +55,7 @@ RSpec.describe UserImporter, type: :service do
         digest = UserImporter.call(merchant_row)
       }.to change { User.count }.from(0).to(1)
       expect(digest[:processed]).to eq(1)
-      expect(digest[:skipped]).to eq(0)
+      expect(digest[:skipped].size).to eq(0)
       expect(digest[:failed].size).to eq(0)
 
       imported_user = User.last

@@ -156,5 +156,3 @@ RSpec.describe Transactions::Authorize, type: :model do
     end
   end
 end
-
-
