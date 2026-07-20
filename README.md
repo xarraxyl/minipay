@@ -1,16 +1,10 @@
-# README
-
-## Ruby version
-
-## System dependencies
-
-## Configuration
-
-## Database creation
+# minipay - a demo payment app
 
 ## Database initialization
 
 `rails db:create`
+
+## CSV import
 
 To seed the data with users, you can use the `rake import:users` task. Simply pass a FILE=/path/to/csv to import from that file.
 
@@ -47,8 +41,7 @@ curl -X POST localhost:3000/payments \
 
 - ingration tests: `rspec`
 
-* Services (job queues, cache servers, search engines, etc.)
+## Services (job queues, cache servers, search engines, etc.)
 
-* Deployment instructions
+## Deployment instructions
 
-* ...
