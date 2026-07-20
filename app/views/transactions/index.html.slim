@@ -1,11 +1,15 @@
 p style="color: green" = notice
 
-h1 Transactions
-
-#transactions
-  - @transactions.each do |transaction|
-    == render transaction
-    p
-      = link_to "Show this transaction", transaction
+table
+  thread
+    tr
+      th UUID
+      th Amount
+      th Status
+      th Email
+      th Phone
+  tbody
+    - @transactions.each do |transaction|
+      = TransactionPresenter.new(transaction, self).to_table_row
 
 = link_to "New transaction", new_transaction_path

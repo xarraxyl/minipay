@@ -1,0 +1,6 @@
+tr.transaction-row id="transaction_#{presenter.uuid}"
+  td = presenter.uuid
+  td = presenter.amount
+  td class="status-#{presenter.status}" = presenter.status.upcase
+  td = presenter.customer_email
+  td = presenter.customer_phone
