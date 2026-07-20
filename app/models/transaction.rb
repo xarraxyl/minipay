@@ -4,7 +4,7 @@ class Transaction < ApplicationRecord
   after_initialize :defaults
   before_validation :check_parent_status, on: :create
 
-  validates :amount, presence: true, numericality: { greater_than: 0 }
+  validates :amount, presence: true, numericality: { greater_than: 0 }, unless: :reversal?
   validates :uuid, presence: true, uuid: true
   validates :customer_email, email: true
   validates :status, presence: true
@@ -54,5 +54,9 @@ class Transaction < ApplicationRecord
     unless parent.approved? || parent.refunded?
       self.status = :error
     end
+  end
+
+  def reversal?
+    is_a?(Transactions::Reversal)
   end
 end

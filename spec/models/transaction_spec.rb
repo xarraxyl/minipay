@@ -189,3 +189,69 @@ RSpec.describe Transactions::Authorize, type: :model do
     end
   end
 end
+
+RSpec.describe Transactions::Charge, type: :model do
+  context "amount" do
+    it "must exist" do
+      transaction = build(:charge_transaction, amount: nil)
+
+      transaction.valid?
+
+      expect(transaction).to have_error(:amount, :blank)
+    end
+  end
+
+  context "the merchant's total_transaction_sum" do
+    it "must be increased by a charge transaction" do
+      merchant = create(:merchant)
+
+      # NOTE our implementation doesn't have customers - otherwise we would have tests that their balance changes as well
+      expect { create(:charge_transaction, amount: 1337, merchant: merchant) }.to change { merchant.total_transaction_sum }.by(1337)
+    end
+  end
+end
+
+RSpec.describe Transactions::Refund, type: :model do
+  context "amount" do
+    it "must exist" do
+      transaction = build(:refund_transaction, amount: nil)
+
+      transaction.valid?
+
+      expect(transaction).to have_error(:amount, :blank)
+    end
+  end
+
+  context "the merchant's total_transaction_sum" do
+    it "must decrease by a refund transaction" do
+      merchant = create(:merchant, total_transaction_sum: 10000)
+
+      # NOTE our implementation doesn't have customers - otherwise we would have tests that their balance changes as well
+      expect { create(:refund_transaction, amount: 1337, merchant: merchant) }.to change { merchant.total_transaction_sum }.by(-1337)
+    end
+  end
+
+  it "must change the charge transaction's status to refunded" do
+    charge = create(:charge_transaction, status: "approved")
+
+    expect { create(:refund_transaction, parent: charge) }.to change { charge.reload.status }.from("approved").to("refunded")
+  end
+end
+
+RSpec.describe Transactions::Reversal, type: :model do
+  context "amount" do
+    it "doesn't need to exist" do
+      transaction = build(:reversal_transaction, amount: nil)
+
+      transaction.valid?
+
+      expect(transaction).not_to have_error(:amount, :blank)
+    end
+  end
+
+  it "must change the authorized transaction's status to reversed" do
+    authorize = create(:authorize_transaction, status: "approved")
+
+    expect { create(:reversal_transaction, parent: authorize) }.to change { authorize.reload.status }.from("approved").to("reversed")
+  end
+end
