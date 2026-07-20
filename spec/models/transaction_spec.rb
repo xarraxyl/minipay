@@ -143,6 +143,39 @@ RSpec.describe Transaction, type: :model do
       expect(transaction).to have_error(:merchant, :blank)
     end
   end
+
+  context 'parent <-> children' do
+    it 'correctly walks up the tree from a refund to its authorization' do
+      authorize = create(:authorize_transaction)
+      charge = create(:charge_transaction, parent: authorize)
+      refund = create(:refund_transaction, parent: charge)
+
+      expect(refund.parent).to eq(charge)
+      expect(refund.parent.parent).to eq(authorize)
+    end
+
+    it 'allows access to child transactions' do
+      authorize = create(:authorize_transaction)
+      charge = create(:charge_transaction, parent: authorize)
+      reversal = create(:reversal_transaction, parent: authorize)
+
+      expect(authorize.children).to match_array([ charge, reversal ])
+    end
+
+    it "status is not error for approved and refunded parent transactions" do
+      authorize = create(:authorize_transaction, status: "approved")
+      charge = create(:charge_transaction, parent: authorize)
+
+      expect(charge.status).not_to eq("error")
+    end
+
+    it "status is error for reversed and error parent transactions" do
+      authorize = create(:authorize_transaction, status: "reversed")
+      charge = create(:charge_transaction, parent: authorize)
+
+      expect(charge.status).to eq("error")
+    end
+  end
 end
 
 RSpec.describe Transactions::Authorize, type: :model do

@@ -2,6 +2,7 @@ class Transaction < ApplicationRecord
   enum :status, { approved: 0, reversed: 1, refunded: 2, error: 3 }
 
   after_initialize :defaults
+  before_validation :check_parent_status, on: :create
 
   validates :amount, presence: true, numericality: { greater_than: 0 }
   validates :uuid, presence: true, uuid: true
@@ -11,6 +12,8 @@ class Transaction < ApplicationRecord
   validate :state_transition_for_status, if: :status_changed?
 
   belongs_to :merchant
+  belongs_to :parent, class_name: "Transaction", optional: true
+  has_many :children, class_name: "Transaction", foreign_key: :parent_id
 
   scope :old, -> { where(created_at: ..1.hour.ago) }
 
@@ -41,6 +44,15 @@ class Transaction < ApplicationRecord
       errors.add(:status, :invalid_state_transition, message: "invalid state transition #{status_was} -> #{status}")
     else
       raise "Unknown status for Transaction #{self.inspect}"
+    end
+  end
+
+  def check_parent_status
+    return if parent.nil?
+
+    # If the parent is NOT approved or refunded the transaction has an error status
+    unless parent.approved? || parent.refunded?
+      self.status = :error
     end
   end
 end

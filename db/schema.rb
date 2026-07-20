@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_14_092501) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_20_084527) do
   create_table "merchants", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.text "description"
@@ -36,11 +36,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_14_092501) do
     t.string "customer_email"
     t.string "customer_phone"
     t.integer "merchant_id", null: false
+    t.integer "parent_id"
     t.integer "status"
     t.string "type", null: false
     t.datetime "updated_at", null: false
     t.string "uuid"
     t.index ["merchant_id"], name: "index_transactions_on_merchant_id"
+    t.index ["parent_id"], name: "index_transactions_on_parent_id"
     t.index ["uuid"], name: "index_transactions_on_uuid", unique: true
   end
 
@@ -57,5 +59,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_14_092501) do
 
   add_foreign_key "sessions", "users"
   add_foreign_key "transactions", "merchants"
+  add_foreign_key "transactions", "transactions", column: "parent_id"
   add_foreign_key "users", "merchants"
 end
