@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :payments, only: :create, constraints: { format: :json }
   resource :session
   resources :passwords, param: :token
   resources :transactions, constraints: { format: :html }

@@ -28,7 +28,22 @@ if "merchant" is under role the rows must also contain:
 - status
 - total_transaction_sum
 
-* How to run the test suite
+## Payment API
+
+send a valid POST request to /payments
+
+the body must be a valid json containing: `merchant_id`, `amount`, `customer_email`, `status` and `type`.
+
+Don't forget to submit a valid authentication token in the header.
+
+```
+curl -X POST localhost:3000/payments \
+  -H "Authorization: Bearer eyJfcmFpbHMiOnsiZGF0YSI6MSwicHVyIjoidXNlciJ9fQ--63e682992970dda86b064fbff953bd92aca8399af6ddc6989dbf72ba96440c87" \
+  -H "Content-Type: application/json" \
+  -d '{ "amount": 2000, "customer_email": "hi@lala.com", "status": "approved", "merchant_id": 1 }' 
+```
+
+## How to run the test suite
 
 - ingration tests: `rspec`
 
