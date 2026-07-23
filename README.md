@@ -1,8 +1,24 @@
 # minipay - a demo payment app
 
-## Database initialization
+## Setup
 
-`rails db:create`
+### Dependencies
+
+- ruby 4.0.1
+- yarn
+
+### Installation
+
+```
+git clone https://github.com/xarraxyl/minipay.git
+bundle install
+rails db:create
+rails db:migrate
+yarn install
+rails css:build
+
+bin/dev # to start the server
+```
 
 ## CSV import
 

@@ -40,6 +40,7 @@ gem "kamal", require: false
 gem "thruster", require: false
 
 gem "slim-rails"
+gem "csv"
 
 group :development, :test do
   gem "rspec-rails", "~> 8.0.0"

@@ -1,0 +1,5 @@
+role,email_address,password,name,description,email,status,total_transaction_sum
+admin,valid@email.com,"password123",,,,
+merchant,merchant@email.com,"merchantpass","Merchant Name","This is a description of the merchant.","merchant@email.com",active,1000.00
+admin,val2@email.com,"pass,with,comma",,,,
+admin,invalid-no-pass,,,,,

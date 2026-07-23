@@ -1,14 +1,17 @@
+require 'csv'
+
 namespace :import do
   desc "Import users from a CSV file"
   task users: :environment do
     file_path = ENV["FILE"]
 
-    csv_enumerator = CSV.read(file_path)
+    csv_enumerator = CSV.read(file_path, headers: true, header_converters: :symbol, converters: :all).lazy
+
     total_processed = 0
 
     # `each_slice` prevents loading a large file into memory
     csv_enumerator.each_slice(1000) do |slice|
-      row_hashes = chunk.map(&:to_h)
+      row_hashes = slice.map(&:to_h)
       row_size = row_hashes.size
       total_processed += row_size
 
@@ -16,9 +19,9 @@ namespace :import do
 
       puts <<~DIGEST
       skipped:
-      #{digest[:skipped].each { |s| puts s.inspect }}
+      #{digest[:skipped].map(&:inspect).join("\n")}
       failed:
-      #{digest[:failed].each { |f| puts f.inspect }}
+      #{digest[:failed].map(&:inspect).join("\n")}
       DIGEST
     end
 
