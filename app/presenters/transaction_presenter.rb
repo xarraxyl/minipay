@@ -1,10 +1,14 @@
 class TransactionPresenter
-  attr_reader :transaction, :h
+  attr_reader :transaction, :vc
   delegate :uuid, :status, :customer_phone, to: :transaction
 
-  def initialize(transaction, h)
+  def initialize(transaction, vc)
     @transaction = transaction
-    @h = h
+    @vc = vc
+  end
+
+  def uuid_link
+    vc.link_to(uuid, vc.transaction_path(transaction.id))
   end
 
   def amount
@@ -12,10 +16,10 @@ class TransactionPresenter
   end
 
   def customer_email
-    h.link_to(transaction.customer_email, "mailto:#{transaction.customer_email}", class: "customer-email-link")
+    vc.link_to(transaction.customer_email, "mailto:#{transaction.customer_email}", class: "email-link")
   end
 
   def to_table_row
-    h.render partial: 'transactions/table_row', locals: { presenter: self }
+    vc.render partial: "transactions/table_row", locals: { presenter: self }
   end
 end

@@ -23,23 +23,19 @@ class MerchantsController < ApplicationController
   def create
     @merchant = Merchant.new(merchant_params)
 
-    respond_to do |format|
-      if @merchant.save
-        redirect_to @merchant, notice: "Merchant was successfully created."
-      else
-        render :new, status: :unprocessable_content
-      end
+    if @merchant.save
+      redirect_to @merchant, notice: "Merchant was successfully created."
+    else
+      render :new, status: :unprocessable_content
     end
   end
 
   # PATCH/PUT /merchants/1
   def update
-    respond_to do |format|
-      if @merchant.update(merchant_params)
-        redirect_to @merchant, notice: "Merchant was successfully updated.", status: :see_other
-      else
-        render :edit, status: :unprocessable_content
-      end
+    if @merchant.update(merchant_params)
+      redirect_to @merchant, notice: "Merchant was successfully updated.", status: :see_other
+    else
+      render :edit, status: :unprocessable_entity
     end
   end
 
@@ -47,9 +43,7 @@ class MerchantsController < ApplicationController
   def destroy
     @merchant.destroy!
 
-    respond_to do |format|
-      redirect_to merchants_path, notice: "Merchant was successfully destroyed.", status: :see_other
-    end
+    redirect_to merchants_path, notice: "Merchant was successfully destroyed.", status: :see_other
   end
 
   private

@@ -2,10 +2,16 @@ p style="color: green" = notice
 
 h1 Merchants
 
-#merchants
-  - @merchants.each do |merchant|
-    == render merchant
-    p
-      = link_to "Show this merchant", merchant
+table.table
+  thead
+    tr
+      th Name
+      th Description
+      th Status
+      th Email
+      th Total Transaction Sum
+  tbody
+    - @merchants.each do |merchant|
+      = MerchantPresenter.new(merchant, self).to_table_row
 
 = link_to "New merchant", new_merchant_path
