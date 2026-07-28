@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
-# If running the rails server then create or migrate existing database
-if [ "${@: -2:1}" == "./bin/rails" ] && [ "${@: -1:1}" == "server" ]; then
+# Run db:prepare if the command contains "rails server" or "rails s"
+if [[ "$*" == *"rails server"* ]] || [[ "$*" == *"rails s"* ]]; then
   ./bin/rails db:prepare
 fi
 

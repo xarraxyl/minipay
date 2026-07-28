@@ -7,26 +7,42 @@
 - ruby 4.0.1
 - yarn
 
+#### if you are using docker
+
+- docker
+- docker compose
+
 ### Installation
 
 ```
 git clone https://github.com/xarraxyl/minipay.git
 bundle install
-rails db:create
-rails db:migrate
+rails db:prepare
 yarn install
 rails css:build
 
 bin/dev # to start the server
 ```
 
+#### if you are using docker
+
+```
+git clone https://github.com/xarraxyl/minipay.git
+cd minipay
+docker compose up
+```
+
 ## CSV import
 
-To seed the data with users, you can use the `rake import:users` task. Simply pass a FILE=/path/to/csv to import from that file.
+To seed the data with users, you can use the `rake import:users` task. Simply pass a FILE=/path/to/csv to import from that file. Or if using docker:
+
+```
+docker compose exec web bin/rails "import:users" FILE=.example.csv
+```
 
 Your csv file must be in the following format:
 
-- role: "admin" or "user"
+- role: `admin` or `user`
 - email: valid email
 - password: in plaintext (I am assuming this is not production data.) and surrounded by double quotes `"` in order to guard against the passwords containing commas.
 
@@ -56,8 +72,4 @@ curl -X POST localhost:3000/payments \
 ## How to run the test suite
 
 - ingration tests: `rspec`
-
-## Services (job queues, cache servers, search engines, etc.)
-
-## Deployment instructions
-
+- system tests: `rails test test/system`
