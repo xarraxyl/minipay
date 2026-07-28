@@ -43,24 +43,10 @@ class UserImporter
       return
     end
 
-    user.role = row[:role]
-
-    case user.role
-    when "merchant"
-      merchant = Merchant.create(
-        name: row[:name],
-        description: row[:description],
-        email: row[:email],
-        status: row[:status],
-        total_transaction_sum: row[:total_transaction_sum]
-      )
-
-      user.profile = merchant
-      user.save!
-    when "admin"
-      user.save!
-    else
-      raise "Unknown value in the row column"
-    end
+    user.profile = ProfileFactory.build_for(row[:role], row)
+    user.save!
+  rescue ProfileFactory::UnknownRoleError, ActiveRecord::RecordInvalid => e
+    # add failed rows to the failed array for digest display
+    @failed << row.merge(error: e.message)
   end
 end

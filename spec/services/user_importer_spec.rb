@@ -17,7 +17,7 @@ RSpec.describe UserImporter, type: :service do
 
       expect(imported_user).to have_attributes(
         email_address: "test@email.com",
-        role: "admin"
+        profile_type: "Admin"
       )
       # check password separately
       expect(imported_user.authenticate('passpass')).to be_truthy
@@ -63,7 +63,7 @@ RSpec.describe UserImporter, type: :service do
 
       expect(imported_user).to have_attributes(
         email_address: "test@email.com",
-        role: "merchant"
+        profile_type: "Merchant"
       )
       # Verify password separately
       expect(imported_user.authenticate('passpass')).to be_truthy
