@@ -27,10 +27,9 @@ RSpec.describe "transactions/index", type: :view do
   it "renders a list of transactions" do
     render
 
-    cell_selector = 'div>p'
-    assert_select cell_selector, text: Regexp.new("Uuid".to_s), count: 2
-    assert_select cell_selector, text: Regexp.new("Status".to_s), count: 2
-    assert_select cell_selector, text: Regexp.new("real@email.com".to_s), count: 2
-    assert_select cell_selector, text: Regexp.new("Customer Phone".to_s), count: 2
+    assert_select "tbody>tr>td", text: /ef947632-038d-47e4-b300-ae351075b1a8/, count: 1
+    assert_select "tbody>tr>td", text: /Approved/i, count: 2
+    assert_select "tbody>tr>td", text: /real@email\.com/, count: 2
+    assert_select "tbody>tr>td", text: /Customer Phone/, count: 2
   end
 end

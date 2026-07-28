@@ -22,7 +22,7 @@ RSpec.describe "merchants/index", type: :view do
 
   it "renders a list of merchants" do
     render
-    cell_selector = 'div>p'
+    cell_selector = 'tr>td'
     assert_select cell_selector, text: Regexp.new("Name".to_s), count: 2
     assert_select cell_selector, text: Regexp.new("MyText".to_s), count: 2
     assert_select cell_selector, text: Regexp.new("Email".to_s), count: 2

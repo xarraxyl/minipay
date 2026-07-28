@@ -21,7 +21,7 @@ RSpec.describe "merchants/new", type: :view do
 
       assert_select "input[name=?]", "merchant[email]"
 
-      assert_select "input[name=?]", "merchant[status]"
+      assert_select "select[name=?]", "merchant[status]"
 
       assert_select "input[name=?]", "merchant[total_transaction_sum]"
     end
