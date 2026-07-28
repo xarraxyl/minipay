@@ -8,5 +8,5 @@ class Merchant < ApplicationRecord
   has_many :refund_transactions, class_name: "Transactions::Refund"
   has_many :reversal_transactions, class_name: "Transactions::Reversal"
 
-  has_one :user, dependent: :nullify
+  has_one :user, as: :profile, dependent: :nullify
 end

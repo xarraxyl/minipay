@@ -55,7 +55,7 @@ class UserImporter
         total_transaction_sum: row[:total_transaction_sum]
       )
 
-      user.merchant = merchant
+      user.profile = merchant
       user.save!
     when "admin"
       user.save!
