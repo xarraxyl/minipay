@@ -10,10 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_28_093319) do
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "pg_catalog.plpgsql"
-
+ActiveRecord::Schema[8.1].define(version: 2026_07_28_121129) do
   create_table "admins", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.text "description"
@@ -38,7 +35,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_28_093319) do
     t.string "ip_address"
     t.datetime "updated_at", null: false
     t.string "user_agent"
-    t.bigint "user_id", null: false
+    t.integer "user_id", null: false
     t.index ["user_id"], name: "index_sessions_on_user_id"
   end
 
@@ -47,9 +44,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_28_093319) do
     t.datetime "created_at", null: false
     t.string "customer_email"
     t.string "customer_phone"
-    t.bigint "merchant_id", null: false
-    t.bigint "parent_id"
-    t.integer "status", default: 0, null: false
+    t.integer "merchant_id", null: false
+    t.integer "parent_id"
+    t.integer "status"
     t.string "type", null: false
     t.datetime "updated_at", null: false
     t.string "uuid"
@@ -61,11 +58,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_28_093319) do
   create_table "users", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "email_address", null: false
-    t.bigint "merchant_id"
+    t.integer "merchant_id"
     t.string "password_digest", null: false
-    t.bigint "profile_id"
-    t.string "profile_type"
-    t.integer "role", default: 1, null: false
+    t.integer "profile_id"
+    t.string "profile_type", default: "Merchant"
     t.datetime "updated_at", null: false
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
     t.index ["merchant_id"], name: "index_users_on_merchant_id"

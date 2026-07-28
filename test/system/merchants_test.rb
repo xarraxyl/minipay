@@ -3,7 +3,7 @@ require "application_system_test_case"
 class MerchantsTest < ApplicationSystemTestCase
   setup do
     @merchant = create(:merchant)
-    @user = create(:user, merchant: @merchant)
+    @user = create(:user, profile: @merchant)
     sign_in(@user)
   end
 
